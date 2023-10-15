@@ -7,14 +7,14 @@ Textarea,
 Stack,
 Select,
 useToast,
+Heading,
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
-import { addTodo } from "../api/todo";
+import { addNewData } from "../api/newdata";
 
 
-const AddTodo = () => {
-const [title, setTitle] = React.useState("");
-const [description, setDescription] = React.useState("");
+const NewData = () => {
+const [thoughts, setThought] = React.useState("");
 const [status, setStatus] = React.useState("pending");
 const [isLoading, setIsLoading] = React.useState(false);
 const toast = useToast();
@@ -22,57 +22,68 @@ const { isLoggedIn, user } = useAuth();
 const handleTodoCreate = async () => {
 if (!isLoggedIn) {
 toast({
-title: "You must be logged in to create a todo",
 status: "error",
 duration: 9000,
 isClosable: true,
 });
 return;
 }
+
 setIsLoading(true);
-const todo = {
-title,
-description,
+const newdata = {
+thoughts,
 status,
 userId: user.uid,
 };
-await addTodo(todo);
+
+await addNewData (newdata);
 setIsLoading(false);
-setTitle("");
-setDescription("");
+setThought("");
 setStatus("pending");
-toast({ title: "Todo created successfully", status: "success" });
+toast({ title: "Status for today created", status: "success" });
 };
 return (
 <Box w="40%" margin={"0 auto"} display="block" mt={5}>
 <Stack direction="column">
-<Input
-placeholder="Title"
-value={title}
-onChange={(e) => setTitle(e.target.value)}
-/>
-<Textarea
-placeholder="Description"
-value={description}
-onChange={(e) => setDescription(e.target.value)}
-/>
+<Heading>How are you feeling today</Heading>
+
+
+
 <Select value={status} onChange={(e) => setStatus(e.target.value)}>
 <option
-value={"pending"}
+value={"happy"}
 style={{ color: "yellow", fontWeight: "bold" }}
 >
-Pending ⌛
+Happy 😀
 </option>
 <option
-value={"completed"}
-style={{ color: "green", fontWeight: "bold" }}
+value={"sad"}
+style={{ color: "blue", fontWeight: "bold" }}
 >
-Completed ✅
+Sad 😔
+</option>
+<option
+value={"angry"}
+style={{ color: "red", fontWeight: "bold" }}
+>
+Angry 😡
+</option>
+<option
+value={"nervous"}
+style={{ color: "gray", fontWeight: "bold" }}
+>
+Nervous 😬
 </option>
 </Select>
+<Textarea
+placeholder="Write Your Thoughts"
+value={thoughts}
+onChange={(e) => setThought(e.target.value)}
+/>
+
 <Button
 onClick={() => handleTodoCreate()}
-disabled={title.length < 1 || description.length < 1 || isLoading}
+disabled={thoughts.length < 1 || isLoading}
 colorScheme="teal"
 variant="solid"
 >
@@ -82,4 +93,4 @@ Add
 </Box>
 );
 };
-export default AddTodo;
+export default NewData;

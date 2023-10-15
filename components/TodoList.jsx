@@ -17,7 +17,9 @@ const TodoList = () => {
 
   const { user } = useAuth();
   const toast = useToast();
-  const refreshData = () => {
+
+
+  useEffect(() => {
     if (!user) {
       setTodos([]);
       return;
@@ -31,10 +33,6 @@ const TodoList = () => {
       });
       setTodos(ar);
     });
-  };
-
-  useEffect(() => {
-    refreshData();
   }, [user]);
 
   const handleTodoDelete = async (id) => {

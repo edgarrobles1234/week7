@@ -32,23 +32,34 @@ const Auth = () => {
   };
 
   return (
-    <Box position={"fixed"} top="5%" right="5%">
-      <Button onClick={() => toggleColorMode()}>
-        {colorMode == "dark" ? <FaSun /> : <FaMoon />}
-      </Button>{" "}
-      {isLoggedIn && (
-        <>
-          <Text color="green.500">{user.email}</Text>
-          <Link color="red.500" onClick={() => auth.signOut()}>
-            Logout
-          </Link>
-        </>
-      )}
-      {!isLoggedIn && (
-        <Button leftIcon={<FaGoogle />} onClick={() => handleAuth()}>
-          Login with Google
-        </Button>
-      )}
+    <Box display="flex" alignItems="center" justifyContent={"space-evenly"}>
+      
+      <Box textAlign="center" w="100px" h="30px" backgroundColor="cadetblue">
+        <Link href="../Add_To_Do">Add to do</Link>
+      </Box>
+
+      <Box textAlign="center" w="100px" h="30px" backgroundColor="cadetblue">
+        <Link href="/">List all to dos</Link>
+      </Box>
+      
+      <Box textAlign="right">
+        <Button onClick={() => toggleColorMode()}>
+          {colorMode == "dark" ? <FaSun /> : <FaMoon />}
+        </Button>{" "}
+        {isLoggedIn && (
+          <>
+            <Text color="green.500">{user.email}</Text>
+            <Link color="red.500" onClick={() => auth.signOut()}>
+              Logout
+            </Link>
+          </>
+        )}
+        {!isLoggedIn && (
+          <Button leftIcon={<FaGoogle />} onClick={() => handleAuth()}>
+            Login with Google
+          </Button>
+        )}
+      </Box>
     </Box>
   );
 };
